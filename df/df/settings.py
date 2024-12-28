@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+TELEGRAM_BOT_API_KEY = '8164262122:AAG5DlcY1-6pVWkC_-qjXOcQTj22Jd-i7BM'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +34,7 @@ MESSAGE_TAGS = {
 
 INSTALLED_APPS = [
     'main',
+    'botapp',
     'catalog',
     'orders',
     'users',
