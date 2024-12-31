@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#Теперь run_bot_thread будет запускаться только тогда, когда команда runserver запускает сервер,
+# и только после полной инициализации Django.
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import threading
 
 def main():
     """Run administrative tasks."""
@@ -15,6 +16,13 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    # Импортируем `run_bot_thread` только после инициализации Django
+    if 'runserver' in sys.argv:  # Проверяем, запускается ли сервер
+        import threading
+        from botapp.botapp import run_bot_thread   # Импортируем только при необходимости
+        threading.Thread(target=run_bot_thread, daemon=True).start()
+
     execute_from_command_line(sys.argv)
 
 

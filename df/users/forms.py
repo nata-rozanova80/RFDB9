@@ -1,15 +1,18 @@
 # users/forms.py
 from django import forms
-#from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-User = get_user_model()
-
 from django.contrib.auth.forms import UserCreationForm
 
+User = get_user_model()  # Получаем кастомную модель пользователя
+
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    # Cюда? добавить поле для телеграм?
+    telegram_id = forms.CharField(
+        required=False,
+        label="Telegram ID",
+        help_text="Введите ваш Telegram ID для связи."
+    )
+
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = User  # Указываем модель пользователя (кастомная или стандартная)
+        fields = ['username', 'email', 'password1', 'password2', 'telegram_id']

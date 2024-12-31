@@ -31,12 +31,20 @@ def checkout(request):
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
+            order.total_price = 0  # Инициализация общей суммы заказа
             order.save()
 
             # Добавляем товары из корзины в заказ
             for product_id, quantity in cart.items():
                 product = Product.objects.get(id=product_id)
+                price_for_quantity = product.price * quantity  # Умножение количества на цену
                 OrderItem.objects.create(order=order, product=product, quantity=quantity)
+
+                # Увеличиваем общую стоимость заказа
+                order.total_price += price_for_quantity
+
+            # Сохраняем обновлённую общую сумму заказа
+            order.save()
 
             # Очищаем корзину
             request.session['cart'] = {}

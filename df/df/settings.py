@@ -35,9 +35,9 @@ MESSAGE_TAGS = {
 INSTALLED_APPS = [
     'main',
     'botapp',
+    'users',
     'catalog',
     'orders',
-    'users',
     'analytics',
     'django.contrib.admin',
     'django.contrib.auth',
