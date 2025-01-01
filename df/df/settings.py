@@ -34,7 +34,6 @@ MESSAGE_TAGS = {
 
 INSTALLED_APPS = [
     'main',
-    'botapp',
     'users',
     'catalog',
     'orders',
