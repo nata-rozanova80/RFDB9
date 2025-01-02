@@ -1,4 +1,7 @@
 # orders/views.py
+import requests
+from django.http import JsonResponse
+
 import csv
 from django.http import HttpResponse
 
@@ -18,6 +21,22 @@ from datetime import timedelta
 
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+# Код из 27.12 ответы на вопросы
+def update_order_status(request, order_id):
+    # Пример данных для отправки
+    order_key = "example_key"
+    status = "Обновлен"
+    webhook_url = "http://127.0.0.1:8001/webhook"
+
+    try:
+        response = requests.post(webhook_url, json={"order_id": order_id, "status": status})
+        if response.status_code == 200:
+            return JsonResponse({"success": "Notification sent to bot"})
+        else:
+            return JsonResponse({"error": "Failed to send notification"}, status=500)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 @login_required
 def checkout(request):
