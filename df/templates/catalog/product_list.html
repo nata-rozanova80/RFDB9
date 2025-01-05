@@ -12,12 +12,29 @@
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
             {% endif %}
             <p>{{ product.description }}</p>
-            <form method="post" action="{% url 'add_to_cart' %}">
+            <form action="{% url 'add_to_cart' %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ product.id }}">
-            <button type="submit" class="btn btn-success">В корзину</button>
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn btn-primary">Добавить в корзину</button>
             </form>
         </li>
     {% endfor %}
 </ul>
+<!-- Модальное окно для успешного оформления заказа -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderSuccessModalLabel">Заказ успешно оформлен!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    Ваш ключ заказа: <span style="color: red; font-weight: bold;">{{ unique_key }}</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

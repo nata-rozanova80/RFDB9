@@ -54,7 +54,7 @@
         .sub-header {
             background-color: #4CAF50;
             color: white;
-            padding: 5rem 0;
+            padding: 4rem 0;
             text-align: center;
             height: var(--sub-header-height);
         }
@@ -68,7 +68,7 @@
             width: 100%;
         }
         .container {
-            padding: calc(var(--nav-height) + var(--sub-header-height)) 2rem 4rem 2rem;
+            padding: 4rem 2rem 4rem 2rem;
             /* Увеличен верхний отступ для учета фиксированного nav и sub-header */
         }
     </style>
@@ -83,14 +83,14 @@
             {% if user.is_staff %}
                 <a href="{% url 'analytics_report' %}">Аналитика</a>
                 <a href="{% url 'order_report' %}">Отчеты по заказам</a>
-               <a href="{% url 'order_list' %}">Заказы (админ) </a>
+                <a href="{% url 'order_list' %}">Заказы (админ)</a>
             {% endif %}
         {% else %}
             <a href="{% url 'login' %}">Вход</a>
             <a href="{% url 'register' %}">Регистрация</a>
         {% endif %}
         <a href="{% url 'logout' %}">Выход</a>
-   </nav>
+    </nav>
 
     <div class="sub-header">
         <h2>Добро пожаловать в магазин цветов!</h2>
@@ -111,10 +111,37 @@
         {% block content %}
         {% endblock %}
     </div>
+
+
+
     <footer>
         <p>&copy; 2024 Магазин цветов. Все права защищены.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Показываем модальное окно при успешном оформлении заказа
+        {% if unique_key %}
+            var orderSuccessModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+            orderSuccessModal.show();
+        {% endif %}
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

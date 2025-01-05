@@ -14,11 +14,46 @@ def product_list(request):
 #df/templates/catalog/product_list.html
 
 
+# def add_to_cart(request):
+#     if request.method == 'POST':
+#         product_id = request.POST.get('product_id')
+#         if product_id is not None:
+#             product_id = int(product_id)
+#             # Получаем корзину из сессии или создаём пустую
+#             cart = request.session.get('cart', {})
+#
+#             # Увеличиваем количество товара в корзине
+#             cart[product_id] = cart.get(product_id, 0) + 1
+#             request.session['cart'] = cart
+#
+#             messages.success(request, 'Товар добавлен в корзину!')
+#         return redirect('product_list')  # Перенаправляем обратно к списку товаров
+
+# def add_to_cart(request, product_id):
+#     if request.method == 'POST':
+#         product_id = request.POST.get('product_id')  # Получаем product_id из POST
+#
+#         cart = request.session.get('cart', {})
+#
+#          # Логика добавления товара в корзину
+#         if product_id in cart:
+#          # Если товар уже в корзине, увеличиваем количество
+#             cart[product_id] += 1
+#         else:
+#          # Если товара нет, добавляем его с количеством 1
+#             cart[product_id] = 1
+#
+#         request.session['cart'] = cart
+#         messages.success(request, "Товар добавлен в корзину!")
+#         return redirect('product_list')  # Перенаправляем обратно к списку товаров
+
 def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
+
         if product_id is not None:
             product_id = int(product_id)
+
             # Получаем корзину из сессии или создаём пустую
             cart = request.session.get('cart', {})
 
@@ -28,6 +63,8 @@ def add_to_cart(request):
 
             messages.success(request, 'Товар добавлен в корзину!')
         return redirect('product_list')  # Перенаправляем обратно к списку товаров
+
+
 
 #Просмотр корзины должен стоять после других представлений
 
@@ -50,3 +87,5 @@ def view_cart(request):
         })
 
     return render(request, 'catalog/view_cart.html', {'cart_items': cart_items, 'total': total})
+
+

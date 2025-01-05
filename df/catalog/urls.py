@@ -9,7 +9,8 @@ urlpatterns = [
     path('', product_list, name='product_list'),  # Список продуктов
 
 # Другие маршруты...
-    path('add-to-cart/', add_to_cart, name='add_to_cart'),
+    path('add-to-cart/', add_to_cart, name='add_to_cart'), #-    старый маршрут
+    #path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', view_cart, name='view_cart'),
 ]
 

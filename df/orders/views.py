@@ -22,10 +22,18 @@ from datetime import timedelta
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+
+def order_success(request, order_id):
+    # Получаем объект заказа по его ID
+    order = Order.objects.get(id=order_id)
+
+    # Передаем `unique_key` из объекта заказа в шаблон
+    return render(request, 'orders/order_success.html', {'unique_key': order.unique_key})
+
 # Код из 27.12 ответы на вопросы
 def update_order_status(request, order_id):
     # Пример данных для отправки
-    order_key = "example_key"
+    unique_key = "example_key"
     status = "Обновлен"
     webhook_url = "http://127.0.0.1:8001/webhook"
 
@@ -38,6 +46,7 @@ def update_order_status(request, order_id):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
+
 @login_required
 def checkout(request):
     cart = request.session.get('cart', {})
@@ -48,6 +57,7 @@ def checkout(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            # Сохраняем заказ
             order = form.save(commit=False)
             order.user = request.user
             order.total_price = 0  # Инициализация общей суммы заказа
@@ -68,12 +78,17 @@ def checkout(request):
             # Очищаем корзину
             request.session['cart'] = {}
 
-            messages.success(request, "Заказ успешно оформлен! Мы свяжемся с вами для подтверждения.")
-            return redirect('product_list')
+            # Передаём сообщение с ключом заказа
+            messages.success(request,
+                             f"Заказ успешно оформлен! Код вашего заказа: {order.unique_key}. Мы свяжемся с вами для подтверждения.")
+
+            # Перенаправляем на страницу успеха с ключом заказа
+            return redirect('order_success', order_id=order.id)
     else:
         form = OrderForm()
 
     return render(request, 'orders/checkout.html', {'form': form})
+
 
 # Проверка, что пользователь является администратором
 def is_admin(user):
