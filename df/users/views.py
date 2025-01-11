@@ -4,6 +4,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import UserRegisterForm
+from django.contrib.auth.views import LoginView
+from .forms import CustomAuthenticationForm
+
+class CustomLoginView(LoginView):
+    template_name = 'users/login.html'  # Путь к кастомному шаблону
 
 def my_logout(request):
     logout(request)

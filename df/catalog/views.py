@@ -4,14 +4,44 @@ from .models import Product
 from django.shortcuts import redirect
 from django.contrib import messages
 
+from django.shortcuts import get_object_or_404
+from .models import Review
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
+
+
 def index(request):
     return render(request, 'index.html')
 
+# def product_list(request):
+#     print("product_list view was called")
+#     products = Product.objects.all()
+#
+#     return render(request, 'catalog/product_list.html', {'products': products})
+
 def product_list(request):
     print("product_list view was called")
-    products = Product.objects.all()
+    # Используем prefetch_related для оптимизации запросов и загрузки отзывов
+    products = Product.objects.prefetch_related('reviews').all()
     return render(request, 'catalog/product_list.html', {'products': products})
-#df/templates/catalog/product_list.html
+
+@login_required
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.product = product
+            review.save()
+            messages.success(request, "Ваш отзыв успешно добавлен!")
+            return redirect('product_list')
+    else:
+        form = ReviewForm()
+
+    return render(request, 'catalog/add_review.html', {'form': form, 'product': product})
 
 
 def add_to_cart(request):

@@ -6,7 +6,7 @@ import csv
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
-from catalog.models import Product
+from .models import Product
 from .models import Order, OrderItem
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required

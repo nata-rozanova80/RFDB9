@@ -22,6 +22,27 @@
                     <input type="hidden" name="product_id" value="{{ product.id }}">
                     <button type="submit" class="btn btn-primary">Добавить в корзину</button>
                 </form>
+
+                <!-- Блок отзывов -->
+                <h4>Отзывы</h4>
+                <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    {% if product.reviews.exists %}
+                        <ul style="padding: 0; list-style-type: none; margin: 0;">
+                            {% for review in product.reviews.all %}
+                                <li style="margin-bottom: 10px;">
+                                    <strong>{{ review.user.username }}</strong> ({{ review.rating }} звёзд):
+                                    <p style="margin: 0;">{{ review.comment }}</p>
+                                    <small style="color: #888;">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Пока отзывов нет. Оставьте первым!</p>
+                    {% endif %}
+                </div>
+
+                <!-- Кнопка для добавления отзыва -->
+                <a href="{% url 'add_review' product.id %}" class="btn btn-secondary mt-2">Оставить отзыв</a>
             </div>
         </li>
     {% endfor %}
