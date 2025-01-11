@@ -1,11 +1,67 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Регистрация</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-</form>
+<div class="container">
+
+    <h2 class="text-center mb-4">Регистрация</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <!-- Первая колонка -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Имя:</label>
+
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email:</label>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Пароль:</label>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Пароль 2:</label>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.telegram_id.id_for_label }}">Telegram ID:</label>
+
+                </div>
+            </div>
+
+            <!-- Вторая колонка -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.username }}
+
+                </div>
+                <div class="form-group">
+                    {{ form.email }}
+
+                </div>
+                <div class="form-group">
+                    {{ form.password1 }}
+
+                </div>
+                <div class="form-group">
+                    {{ form.password2 }}
+
+                </div>
+                <div class="form-group">
+                    {{ form.telegram_id }}
+
+                </div>
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-3">Зарегистрироваться</button>
+    </form>
+</div>
 {% endblock %}
